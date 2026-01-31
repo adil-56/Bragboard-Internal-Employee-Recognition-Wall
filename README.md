@@ -38,34 +38,9 @@ This project was built as a **real-world full-stack application** with a clean s
 ---
 
 ## Project Structure
+<img width="296" height="724" alt="image" src="https://github.com/user-attachments/assets/abf8928a-8338-4dd4-8619-aa7dce536658" />
 
-bragboard/
-│
-├── backend_py/
-│ ├── app/
-│ │ ├── main.py
-│ │ ├── routers/
-│ │ ├── models/
-│ │ ├── schemas/
-│ │ └── database.py
-│ ├── requirements.txt
-│ └── .env
-│
-├── frontend/
-│ ├── src/
-│ │ ├── components/
-│ │ ├── pages/
-│ │ ├── services/
-│ │ └── App.jsx
-│ ├── package.json
-│ └── .env
-│
-├── documents/
-│ ├── architecture.md
-│ └── api-spec.md
-│
-├── README.md
-└── LICENSE
+
 
 
 
@@ -168,35 +143,25 @@ dotenv
 Future Enhancements
 
 🔐 User Authentication & Role-Based Access
-
 🎖️ Badges and Gamification
-
 📊 Analytics Dashboard (Top Contributors, Trends)
-
 🔔 Notifications (Email / In-app)
-
-☁️ Cloud Deployment (Docker, AWS/Azure)
-
 📱 Mobile-Friendly UI Enhancements
 
+
+
 Contributing
-
 Contributions are welcome and encouraged.
-
 Fork the repository
-
 Create a new branch
-
 git checkout -b feature/your-feature-name
 
 
 Commit your changes
-
 git commit -m "Add: your feature description"
 
 
 Push to your branch
-
 git push origin feature/your-feature-name
 
 
