@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # 🏆 Bragboard — Employee Recognition Platform
 
 A full-stack peer recognition platform where employees can send shoutouts, earn points, and redeem rewards. Built with React, FastAPI, and PostgreSQL.
