@@ -1,240 +1,7 @@
-// // // import { useState } from "react"
-// // // import { useNavigate } from "react-router-dom"
-// // // import api from "../api/axios"
-
-// // // const Login = () => {
-// // //   const [email, setEmail] = useState("")
-// // //   const [password, setPassword] = useState("")
-// // //   const navigate = useNavigate()
-
-// // //   const handleSubmit = async (e) => {
-// // //     e.preventDefault()
-
-// // //     try {
-// // //       const res = await api.post(
-// // //         `/auth/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
-// // //       )
-
-// // //       localStorage.setItem("token", res.data.access_token)
-// // //       localStorage.setItem("is_admin", res.data.is_admin)
-
-// // //       if (res.data.is_admin) {
-// // //         navigate("/admin")
-// // //       } else {
-// // //         navigate("/dashboard")
-// // //       }
-// // //     } catch {
-// // //       alert("Invalid credentials")
-// // //     }
-// // //   }
-
-// // //   return (
-// // //     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-// // //       <form
-// // //         onSubmit={handleSubmit}
-// // //         className="bg-white p-8 rounded-xl shadow w-full max-w-sm"
-// // //       >
-// // //         <h2 className="text-2xl font-bold mb-6 text-center">
-// // //           Login
-// // //         </h2>
-
-// // //         <input
-// // //           type="email"
-// // //           placeholder="Email"
-// // //           value={email}
-// // //           onChange={e => setEmail(e.target.value)}
-// // //           className="w-full border p-2 rounded mb-4"
-// // //           required
-// // //         />
-
-// // //         <input
-// // //           type="password"
-// // //           placeholder="Password"
-// // //           value={password}
-// // //           onChange={e => setPassword(e.target.value)}
-// // //           className="w-full border p-2 rounded mb-4"
-// // //           required
-// // //         />
-
-// // //         <button
-// // //           type="submit"
-// // //           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-// // //         >
-// // //           Login
-// // //         </button>
-// // //       </form>
-// // //     </div>
-// // //   )
-// // // }
-
-// // // export default Login
-
-// // // src/pages/Login.jsx
-// // import { useState } from "react"
-// // import { useNavigate } from "react-router-dom"
-// // import api from "../api/axios"
-
-// // const Login = () => {
-// //   const [email, setEmail] = useState("")
-// //   const [password, setPassword] = useState("")
-// //   const navigate = useNavigate()
-
-// //   const handleSubmit = async (e) => {
-// //     e.preventDefault()
-
-// //     const res = await api.post("/auth/login", null, {
-// //       params: { email, password },
-// //     })
-
-// //     localStorage.setItem("token", res.data.access_token)
-// //     localStorage.setItem("role", res.data.role)
-// //     localStorage.setItem("name", res.data.name)
-// //     localStorage.setItem("email", res.data.email)
-// //     localStorage.setItem("department", res.data.department)
-
-// //     navigate("/dashboard")
-// //   }
-
-// //   return (
-// //     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-// //       <form
-// //         onSubmit={handleSubmit}
-// //         className="bg-white p-8 rounded-xl shadow w-full max-w-sm"
-// //       >
-// //         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-
-// //         <input
-// //           type="email"
-// //           placeholder="Email"
-// //           value={email}
-// //           onChange={e => setEmail(e.target.value)}
-// //           className="w-full border p-2 rounded mb-4"
-// //           required
-// //         />
-
-// //         <input
-// //           type="password"
-// //           placeholder="Password"
-// //           value={password}
-// //           onChange={e => setPassword(e.target.value)}
-// //           className="w-full border p-2 rounded mb-4"
-// //           required
-// //         />
-
-// //         <button
-// //           type="submit"
-// //           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-// //         >
-// //           Login
-// //         </button>
-// //       </form>
-// //     </div>
-// //   )
-// // }
-
-// // export default Login
-
-
-// import { useState } from "react"
-// import { useNavigate } from "react-router-dom"
-// import api from "../api/axios"
-
-// const Login = () => {
-//   const [email, setEmail] = useState("")
-//   const [password, setPassword] = useState("")
-//   const [loading, setLoading] = useState(false)
-//   const [error, setError] = useState("")
-//   const navigate = useNavigate()
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault()
-//     setLoading(true)
-//     setError("")
-
-//     try {
-//       const res = await api.post("/auth/login", null, {
-//         params: { email, password },
-//       })
-
-//       localStorage.setItem("token", res.data.access_token)
-//       localStorage.setItem("role", res.data.role)
-//       localStorage.setItem("name", res.data.name)
-//       localStorage.setItem("email", res.data.email)
-//       localStorage.setItem("department", res.data.department)
-
-//       navigate("/dashboard")
-//     } catch (err) {
-//       console.error(err)
-//       setError("Invalid email or password. Please try again.")
-//     } finally {
-//       setLoading(false)
-//     }
-//   }
-
-//   return (
-//     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 via-white to-gray-200">
-//       <form
-//         onSubmit={handleSubmit}
-//         className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md transform transition hover:scale-[1.02] hover:shadow-xl animate-fadeIn"
-//       >
-//         {/* Title */}
-//         <h2 className="text-3xl font-extrabold mb-6 text-center text-blue-700 tracking-wide">
-//           🔐 Login
-//         </h2>
-
-//         {/* Error Message */}
-//         {error && (
-//           <div className="mb-4 text-red-600 text-sm font-medium text-center">
-//             {error}
-//           </div>
-//         )}
-
-//         {/* Email Input */}
-//         <input
-//           type="email"
-//           placeholder="Email"
-//           value={email}
-//           onChange={e => setEmail(e.target.value)}
-//           className="w-full border border-gray-300 p-3 rounded-lg mb-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
-//           required
-//         />
-
-//         {/* Password Input */}
-//         <input
-//           type="password"
-//           placeholder="Password"
-//           value={password}
-//           onChange={e => setPassword(e.target.value)}
-//           className="w-full border border-gray-300 p-3 rounded-lg mb-6 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
-//           required
-//         />
-
-//         {/* Submit Button */}
-//         <button
-//           type="submit"
-//           disabled={loading}
-//           className={`w-full py-3 rounded-lg text-white font-semibold shadow-md transform transition 
-//             ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 hover:scale-105"}
-//           `}
-//         >
-//           {loading ? "Logging in..." : "Login"}
-//         </button>
-
-//         {/* Footer */}
-//         <p className="text-xs text-gray-500 text-center mt-4">
-//           Secure access to your dashboard
-//         </p>
-//       </form>
-//     </div>
-//   )
-// }
-
-// export default Login
-
-
-
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { motion } from "framer-motion"
+import { Mail, Lock, ArrowRight, Award } from "lucide-react"
 import api from "../api/axios"
 
 const Login = () => {
@@ -248,87 +15,158 @@ const Login = () => {
     e.preventDefault()
     setLoading(true)
     setError("")
-
     try {
-      const res = await api.post("/auth/login", null, {
-        params: { email, password },
-      })
-
+      const res = await api.post("/auth/login", null, { params: { email, password } })
       localStorage.setItem("token", res.data.access_token)
       localStorage.setItem("role", res.data.role)
       localStorage.setItem("name", res.data.name)
       localStorage.setItem("email", res.data.email)
-      localStorage.setItem("department", res.data.department)
-
       navigate("/dashboard")
-    } catch (err) {
-      console.error(err)
-      setError("Invalid email or password. Please try again.")
+    } catch {
+      setError("Invalid email or password. Please check your credentials and try again.")
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 font-sans">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-md p-8 rounded-2xl shadow-xl 
-                   bg-white/20 backdrop-blur-lg border border-white/30 
-                   transform transition hover:scale-[1.02] hover:shadow-2xl animate-fadeIn"
-      >
-        {/* Title */}
-        <h2 className="text-3xl font-extrabold mb-6 text-center text-white tracking-wide drop-shadow font-serif">
-          🔐 Login
-        </h2>
+    <div className="min-h-screen bg-neutral-50 flex">
 
-        {/* Error Message */}
-        {error && (
-          <div className="mb-4 text-red-200 text-sm font-medium text-center">
-            {error}
+      {/* Left branding panel */}
+      <div className="hidden lg:flex lg:w-[42%] bg-primary-600 flex-col justify-between p-12 relative overflow-hidden">
+        {/* Subtle texture */}
+        <div className="absolute inset-0 opacity-[0.06]"
+          style={{ backgroundImage: "repeating-linear-gradient(45deg, white 0, white 1px, transparent 0, transparent 50%)", backgroundSize: "16px 16px" }} />
+
+        {/* Logo */}
+        <div className="relative flex items-center gap-3">
+          <div className="w-9 h-9 bg-white/20 rounded-lg flex items-center justify-center">
+            <Award className="w-5 h-5 text-white" />
           </div>
-        )}
+          <span className="text-white font-bold text-lg tracking-tight">Bragboard</span>
+        </div>
 
-        {/* Email Input */}
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          className="w-full border border-white/40 p-3 rounded-lg mb-4 text-sm 
-                     bg-white/30 text-white placeholder-gray-300 
-                     focus:outline-none focus:ring-2 focus:ring-pink-300 shadow-sm"
-          required
-        />
-
-        {/* Password Input */}
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          className="w-full border border-white/40 p-3 rounded-lg mb-6 text-sm 
-                     bg-white/30 text-white placeholder-gray-300 
-                     focus:outline-none focus:ring-2 focus:ring-pink-300 shadow-sm"
-          required
-        />
-
-        {/* Submit Button */}
-        <button
-          type="submit"
-          disabled={loading}
-          className={`w-full py-3 rounded-lg text-white font-semibold shadow-md transform transition 
-            ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-blue-600 to-pink-600 hover:scale-105"}
-          `}
+        {/* Hero text */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="relative"
         >
-          {loading ? "Logging in..." : "Login"}
-        </button>
+          <h1 className="text-4xl font-bold text-white leading-tight mb-4">
+            Recognize great<br />work, every day.
+          </h1>
+          <p className="text-primary-200 text-base leading-relaxed max-w-xs">
+            Bragboard makes peer recognition simple, meaningful, and rewarding for everyone on your team.
+          </p>
 
-        {/* Footer */}
-        <p className="text-xs text-white/80 text-center mt-4 font-sans">
-          Secure access to your dashboard
-        </p>
-      </form>
+          <div className="mt-10 grid grid-cols-2 gap-3">
+            {[
+              ["🏆", "Peer Recognition"],
+              ["⚡", "Points & Rewards"],
+              ["💬", "Team Comments"],
+              ["📊", "People Insights"],
+            ].map(([icon, label]) => (
+              <div key={label} className="bg-white/10 border border-white/15 rounded-lg px-4 py-3">
+                <span className="text-lg block mb-0.5">{icon}</span>
+                <span className="text-primary-100 text-sm font-medium">{label}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        <p className="relative text-primary-300 text-sm">© 2026 Bragboard. All rights reserved.</p>
+      </div>
+
+      {/* Right login form */}
+      <div className="flex-1 flex items-center justify-center p-8 lg:p-16">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45 }}
+          className="w-full max-w-sm"
+        >
+          {/* Mobile logo */}
+          <div className="flex items-center gap-2 mb-8 lg:hidden">
+            <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
+              <Award className="w-4 h-4 text-white" />
+            </div>
+            <span className="font-bold text-neutral-900 text-lg">Bragboard</span>
+          </div>
+
+          <h2 className="text-h2 text-neutral-900 mb-1">Sign in</h2>
+          <p className="text-body text-neutral-500 mb-8">Enter your credentials to access your workspace.</p>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="field-label">Email address</label>
+              <div className="relative">
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  required
+                  placeholder="you@company.com"
+                  className="input pl-10"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="field-label">Password</label>
+              <div className="relative">
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
+                <input
+                  type="password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  required
+                  placeholder="••••••••"
+                  className="input pl-10"
+                />
+              </div>
+            </div>
+
+            {error && (
+              <div className="flex items-start gap-2.5 bg-danger-50 border border-danger-500/30 text-danger-700 text-body-sm rounded-lg px-4 py-3">
+                <span className="mt-0.5 flex-shrink-0">⚠</span>
+                <span>{error}</span>
+              </div>
+            )}
+
+            <button type="submit" disabled={loading} className="btn-primary btn-lg w-full mt-1">
+              {loading
+                ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                : <><span>Sign in</span> <ArrowRight className="w-4 h-4" /></>}
+            </button>
+          </form>
+
+          <p className="text-body-sm text-neutral-400 text-center mt-6">
+            Don't have an account?{" "}
+            <a href="/register" className="text-primary-600 font-medium hover:underline">Create one</a>
+          </p>
+
+          {/* Demo Credentials */}
+          <div className="mt-6 p-4 bg-primary-50 border border-primary-200 rounded-xl">
+            <p className="text-xs font-semibold text-primary-700 uppercase tracking-wider mb-2">Demo Credentials</p>
+            <div className="space-y-1.5 text-body-sm text-primary-800">
+              <div className="flex justify-between">
+                <span className="font-medium">Admin:</span>
+                <span className="font-mono text-xs">admin@bragboard.com</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-medium">Employee:</span>
+                <span className="font-mono text-xs">adil.sharma1@bragboard.com</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-medium">Password:</span>
+                <span className="font-mono text-xs">Bragboard@123</span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
     </div>
   )
 }

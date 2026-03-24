@@ -33,27 +33,6 @@ def create_comment(
 
     return comment
 
-# @router.get("/comments/shoutouts/{shoutout_id}")
-# def get_comments(
-#     shoutout_id: int,
-#     db: Session = Depends(get_db),
-#     current_user: User = Depends(get_current_user),
-# ):
-#     comments = (
-#         db.query(
-#             Comment.id,
-#             Comment.message,
-#             Comment.created_at,
-#             User.email.label("user_email"),
-#         )
-#         .join(User, User.id == Comment.user_id)
-#         .filter(Comment.shoutout_id == shoutout_id)
-#         .order_by(Comment.created_at.asc())
-#         .all()
-#     )
-
-#     return comments
-
 @router.get("/comments/shoutouts/{shoutout_id}")
 def get_comments(
     shoutout_id: int,
@@ -66,8 +45,18 @@ def get_comments(
         .order_by(Comment.created_at.asc())
         .all()
     )
-
-    return comments
+    
+    results = []
+    for c in comments:
+        user = db.query(User).filter(User.id == c.user_id).first()
+        results.append({
+            "id": c.id,
+            "message": c.message,
+            "created_at": c.created_at.isoformat() if c.created_at else None,
+            "user_email": user.email if user else "Unknown"
+        })
+        
+    return results
 
 
 

@@ -1,0 +1,6 @@
+Step 1: Importing dotenv...
+ERROR: No module named 'dotenv'
+Traceback (most recent call last):
+  File "D:\03_RESOURCES\Academics\bragboard\backend_py\debug_login.py", line 8, in <module>
+    from dotenv import load_dotenv
+ModuleNotFoundError: No module named 'dotenv'

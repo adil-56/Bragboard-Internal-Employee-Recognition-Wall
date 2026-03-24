@@ -10,4 +10,6 @@ class Shoutout(Base):
     message = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    
+    # Tags & Points
+    core_value_id = Column(Integer, ForeignKey("core_values.id"), nullable=True)
+    points_awarded = Column(Integer, default=0, nullable=False)

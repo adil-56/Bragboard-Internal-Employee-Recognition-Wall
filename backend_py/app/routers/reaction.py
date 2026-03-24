@@ -25,16 +25,20 @@ def react_to_shoutout(
         db.query(Reaction)
         .filter(
             Reaction.shoutout_id == shoutout_id,
-            Reaction.user_id == current_user.id,
-            Reaction.type == reaction_type
+            Reaction.user_id == current_user.id
         )
         .first()
     )
 
     if existing:
-        db.delete(existing)
-        db.commit()
-        return {"message": "Reaction removed"}
+        if existing.type == reaction_type:
+            db.delete(existing)
+            db.commit()
+            return {"message": "Reaction removed"}
+        else:
+            existing.type = reaction_type
+            db.commit()
+            return {"message": "Reaction updated"}
 
     reaction = Reaction(
         shoutout_id=shoutout_id,

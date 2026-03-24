@@ -1,567 +1,84 @@
-// // // // import { useEffect, useState } from "react"
-// // // // import api from "../api/axios"
-
-// // // // const REACTIONS = [
-// // // //   { type: "clap", emoji: "👏", color: "bg-yellow-100 text-yellow-700" },
-// // // //   { type: "star", emoji: "⭐", color: "bg-blue-100 text-blue-700" },
-// // // //   { type: "heart", emoji: "❤️", color: "bg-pink-100 text-pink-700" }
-// // // // ]
-
-// // // // const Feed = () => {
-// // // //   const [shoutouts, setShoutouts] = useState([])
-// // // //   const [reactions, setReactions] = useState({})
-// // // //   const [comments, setComments] = useState({})
-// // // //   const [commentInput, setCommentInput] = useState({})
-
-// // // //   useEffect(() => {
-// // // //     fetchShoutouts()
-// // // //   }, [])
-
-// // // //   const fetchShoutouts = async () => {
-// // // //     const res = await api.get("/shoutouts")
-// // // //     setShoutouts(res.data)
-// // // //     res.data.forEach((s) => {
-// // // //       fetchReactions(s.id)
-// // // //       fetchComments(s.id)
-// // // //     })
-// // // //   }
-
-// // // //   const fetchReactions = async (id) => {
-// // // //     const res = await api.get(`/reactions/shoutouts/${id}/summary`)
-// // // //     setReactions((prev) => ({ ...prev, [id]: res.data }))
-// // // //   }
-
-// // // //   const react = async (id, type) => {
-// // // //     await api.post(`/reactions/shoutouts/${id}`, null, {
-// // // //       params: { reaction_type: type }
-// // // //     })
-// // // //     fetchReactions(id)
-// // // //   }
-
-// // // //   const fetchComments = async (id) => {
-// // // //     const res = await api.get(`/comments/comments/shoutouts/${id}`)
-// // // //     setComments((prev) => ({ ...prev, [id]: res.data }))
-// // // //   }
-
-// // // //   const postComment = async (id) => {
-// // // //     if (!commentInput[id]) return
-// // // //     await api.post(`/comments/shoutouts/${id}`, {
-// // // //       message: commentInput[id]
-// // // //     })
-// // // //     setCommentInput((prev) => ({ ...prev, [id]: "" }))
-// // // //     fetchComments(id)
-// // // //   }
-
-// // // //   return (
-// // // //     <div className="min-h-screen bg-gray-100 py-10">
-// // // //       <div className="max-w-4xl mx-auto px-4">
-// // // //         <h1 className="text-3xl font-bold text-gray-800 mb-8">
-// // // //           Shoutout Feed
-// // // //         </h1>
-
-// // // //         {shoutouts.map((s) => (
-// // // //           <div
-// // // //             key={s.id}
-// // // //             className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6"
-// // // //           >
-// // // //             <p className="text-lg font-medium text-gray-800">
-// // // //               {s.message}
-// // // //             </p>
-// // // //             <p className="text-sm text-gray-500 mt-1">
-// // // //               {new Date(s.created_at).toLocaleString()}
-// // // //             </p>
-
-// // // //             <div className="flex gap-3 mt-4">
-// // // //               {REACTIONS.map((r) => (
-// // // //                 <button
-// // // //                   key={r.type}
-// // // //                   onClick={() => react(s.id, r.type)}
-// // // //                   className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium ${r.color} hover:opacity-80 transition`}
-// // // //                 >
-// // // //                   <span>{r.emoji}</span>
-// // // //                   <span>{reactions[s.id]?.[r.type] || 0}</span>
-// // // //                 </button>
-// // // //               ))}
-// // // //             </div>
-
-// // // //             <div className="mt-6">
-// // // //               <h3 className="text-md font-semibold text-gray-700 mb-3">
-// // // //                 Comments
-// // // //               </h3>
-
-// // // //               <div className="space-y-2 mb-4">
-// // // //                 {(comments[s.id] || []).map((c) => (
-// // // //                   <div
-// // // //                     key={c.id}
-// // // //                     className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 text-sm text-gray-700"
-// // // //                   >
-// // // //                     {c.message}
-// // // //                   </div>
-// // // //                 ))}
-// // // //               </div>
-
-// // // //               <div className="flex gap-2">
-// // // //                 <input
-// // // //                   type="text"
-// // // //                   placeholder="Write a comment..."
-// // // //                   value={commentInput[s.id] || ""}
-// // // //                   onChange={(e) =>
-// // // //                     setCommentInput((prev) => ({
-// // // //                       ...prev,
-// // // //                       [s.id]: e.target.value
-// // // //                     }))
-// // // //                   }
-// // // //                   className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-// // // //                 />
-// // // //                 <button
-// // // //                   onClick={() => postComment(s.id)}
-// // // //                   className="px-5 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition"
-// // // //                 >
-// // // //                   Post
-// // // //                 </button>
-// // // //               </div>
-// // // //             </div>
-// // // //           </div>
-// // // //         ))}
-// // // //       </div>
-// // // //     </div>
-// // // //   )
-// // // // }
-
-// // // // export default Feed
-
-
-// // // import { useEffect, useState } from "react"
-// // // import api from "../api/axios"
-
-// // // const REACTIONS = [
-// // //   { type: "clap", emoji: "👏", color: "bg-yellow-100 text-yellow-700" },
-// // //   { type: "star", emoji: "⭐", color: "bg-blue-100 text-blue-700" },
-// // //   { type: "heart", emoji: "❤️", color: "bg-pink-100 text-pink-700" }
-// // // ]
-
-// // // const Feed = () => {
-// // //   const [shoutouts, setShoutouts] = useState([])
-// // //   const [reactions, setReactions] = useState({})
-// // //   const [comments, setComments] = useState({})
-// // //   const [commentInput, setCommentInput] = useState({})
-
-// // //   useEffect(() => {
-// // //     fetchShoutouts()
-// // //   }, [])
-
-// // //   const fetchShoutouts = async () => {
-// // //     const res = await api.get("/shoutouts")
-// // //     setShoutouts(res.data)
-// // //     res.data.forEach((s) => {
-// // //       fetchReactions(s.id)
-// // //       fetchComments(s.id)
-// // //     })
-// // //   }
-
-// // //   const fetchReactions = async (id) => {
-// // //     const res = await api.get(`/reactions/shoutouts/${id}/summary`)
-// // //     setReactions((prev) => ({ ...prev, [id]: res.data }))
-// // //   }
-
-// // //   const react = async (id, type) => {
-// // //     await api.post(`/reactions/shoutouts/${id}`, null, {
-// // //       params: { reaction_type: type }
-// // //     })
-// // //     fetchReactions(id)
-// // //   }
-
-// // //   const fetchComments = async (id) => {
-// // //     const res = await api.get(`/comments/comments/shoutouts/${id}`)
-// // //     setComments((prev) => ({ ...prev, [id]: res.data }))
-// // //   }
-
-// // //   const postComment = async (id) => {
-// // //     if (!commentInput[id]) return
-// // //     await api.post(`/comments/shoutouts/${id}`, {
-// // //       message: commentInput[id]
-// // //     })
-// // //     setCommentInput((prev) => ({ ...prev, [id]: "" }))
-// // //     fetchComments(id)
-// // //   }
-
-// // //   return (
-// // //     <div className="min-h-screen bg-gradient-to-br from-gray-100 via-white to-gray-200 py-12">
-// // //       <div className="max-w-4xl mx-auto px-4">
-// // //         <h1 className="text-4xl font-extrabold text-gray-800 mb-10 text-center tracking-wide animate-fadeIn">
-// // //           🎉 Shoutout Feed
-// // //         </h1>
-
-// // //         {shoutouts.map((s) => (
-// // //           <div
-// // //             key={s.id}
-// // //             className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 mb-8 transform transition hover:scale-[1.02] hover:shadow-xl animate-slideUp"
-// // //           >
-// // //             {/* Shoutout message */}
-// // //             <p className="text-lg font-medium text-gray-800">
-// // //               {s.message}
-// // //             </p>
-// // //             <p className="text-sm text-gray-500 mt-1">
-// // //               {new Date(s.created_at).toLocaleString()}
-// // //             </p>
-
-// // //             {/* Reactions */}
-// // //             <div className="flex gap-3 mt-4">
-// // //               {REACTIONS.map((r) => (
-// // //                 <button
-// // //                   key={r.type}
-// // //                   onClick={() => react(s.id, r.type)}
-// // //                   className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium ${r.color} hover:scale-105 transition transform`}
-// // //                 >
-// // //                   <span>{r.emoji}</span>
-// // //                   <span>{reactions[s.id]?.[r.type] || 0}</span>
-// // //                 </button>
-// // //               ))}
-// // //             </div>
-
-// // //             {/* Comments */}
-// // //             <div className="mt-6">
-// // //               <h3 className="text-md font-semibold text-gray-700 mb-3 border-b pb-1">
-// // //                 💬 Comments
-// // //               </h3>
-
-// // //               <div className="space-y-2 mb-4">
-// // //                 {(comments[s.id] || []).map((c) => (
-// // //                   <div
-// // //                     key={c.id}
-// // //                     className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 text-sm text-gray-700 shadow-sm hover:bg-gray-100 transition"
-// // //                   >
-// // //                     {c.message}
-// // //                   </div>
-// // //                 ))}
-// // //               </div>
-
-// // //               {/* Comment input */}
-// // //               <div className="flex gap-2">
-// // //                 <input
-// // //                   type="text"
-// // //                   placeholder="Write a comment..."
-// // //                   value={commentInput[s.id] || ""}
-// // //                   onChange={(e) =>
-// // //                     setCommentInput((prev) => ({
-// // //                       ...prev,
-// // //                       [s.id]: e.target.value
-// // //                     }))
-// // //                   }
-// // //                   className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
-// // //                 />
-// // //                 <button
-// // //                   onClick={() => postComment(s.id)}
-// // //                   className="px-5 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transform hover:scale-105 transition"
-// // //                 >
-// // //                   Post
-// // //                 </button>
-// // //               </div>
-// // //             </div>
-// // //           </div>
-// // //         ))}
-// // //       </div>
-// // //     </div>
-// // //   )
-// // // }
-
-// // // export default Feed
-
-
-
-// // import { useEffect, useState } from "react"
-// // import api from "../api/axios"
-
-// // const REACTIONS = [
-// //   { type: "clap", emoji: "👏", color: "bg-yellow-100 text-yellow-700" },
-// //   { type: "star", emoji: "⭐", color: "bg-blue-100 text-blue-700" },
-// //   { type: "heart", emoji: "❤️", color: "bg-pink-100 text-pink-700" }
-// // ]
-
-// // const Feed = () => {
-// //   const [shoutouts, setShoutouts] = useState([])
-// //   const [reactions, setReactions] = useState({})
-// //   const [comments, setComments] = useState({})
-// //   const [commentInput, setCommentInput] = useState({})
-
-// //   useEffect(() => {
-// //     fetchShoutouts()
-// //   }, [])
-
-// //   const fetchShoutouts = async () => {
-// //     const res = await api.get("/shoutouts")
-// //     setShoutouts(res.data)
-// //     res.data.forEach((s) => {
-// //       fetchReactions(s.id)
-// //       fetchComments(s.id)
-// //     })
-// //   }
-
-// //   const fetchReactions = async (id) => {
-// //     const res = await api.get(`/reactions/shoutouts/${id}/summary`)
-// //     setReactions((prev) => ({ ...prev, [id]: res.data }))
-// //   }
-
-// //   const react = async (id, type) => {
-// //     await api.post(`/reactions/shoutouts/${id}`, null, {
-// //       params: { reaction_type: type }
-// //     })
-// //     fetchReactions(id)
-// //   }
-
-// //   const fetchComments = async (id) => {
-// //     const res = await api.get(`/comments/comments/shoutouts/${id}`)
-// //     setComments((prev) => ({ ...prev, [id]: res.data }))
-// //   }
-
-// //   const postComment = async (id) => {
-// //     if (!commentInput[id]) return
-// //     await api.post(`/comments/shoutouts/${id}`, {
-// //       message: commentInput[id]
-// //     })
-// //     setCommentInput((prev) => ({ ...prev, [id]: "" }))
-// //     fetchComments(id)
-// //   }
-
-// //   return (
-// //     <div className="min-h-screen bg-gradient-to-br from-gray-100 via-white to-gray-200 py-12 font-sans">
-// //       <div className="max-w-4xl mx-auto px-4">
-// //         <h1 className="text-5xl font-extrabold text-gray-800 mb-10 text-center tracking-wide animate-fadeIn font-serif">
-// //           🎉 Shoutout Feed
-// //         </h1>
-
-// //         {shoutouts.map((s) => (
-// //           <div
-// //             key={s.id}
-// //             className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 mb-8 transform transition hover:scale-[1.02] hover:shadow-xl animate-slideUp"
-// //           >
-// //             {/* Shoutout message */}
-// //             <p className="text-xl font-semibold text-gray-900 font-serif">
-// //               {s.message}
-// //             </p>
-// //             <p className="text-sm text-gray-500 mt-1 font-sans">
-// //               {new Date(s.created_at).toLocaleString()}
-// //             </p>
-
-// //             {/* Reactions */}
-// //             <div className="flex gap-4 mt-5">
-// //               {REACTIONS.map((r) => (
-// //                 <button
-// //                   key={r.type}
-// //                   onClick={() => react(s.id, r.type)}
-// //                   className={`flex items-center gap-2 px-4 py-2 rounded-full text-base font-semibold ${r.color} hover:scale-110 transition transform shadow-sm`}
-// //                 >
-// //                   <span className="text-lg">{r.emoji}</span>
-// //                   <span>{reactions[s.id]?.[r.type] || 0}</span>
-// //                 </button>
-// //               ))}
-// //             </div>
-
-// //             {/* Comments */}
-// //             <div className="mt-6">
-// //               <h3 className="text-lg font-bold text-gray-700 mb-3 border-b pb-1 font-sans">
-// //                 💬 Comments
-// //               </h3>
-
-// //               <div className="space-y-2 mb-4">
-// //                 {(comments[s.id] || []).map((c) => (
-// //                   <div
-// //                     key={c.id}
-// //                     className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 text-sm text-gray-700 shadow-sm hover:bg-gray-100 transition font-sans"
-// //                   >
-// //                     {c.message}
-// //                   </div>
-// //                 ))}
-// //               </div>
-
-// //               {/* Comment input */}
-// //               <div className="flex gap-2">
-// //                 <input
-// //                   type="text"
-// //                   placeholder="Write a comment..."
-// //                   value={commentInput[s.id] || ""}
-// //                   onChange={(e) =>
-// //                     setCommentInput((prev) => ({
-// //                       ...prev,
-// //                       [s.id]: e.target.value
-// //                     }))
-// //                   }
-// //                   className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm font-sans"
-// //                 />
-// //                 <button
-// //                   onClick={() => postComment(s.id)}
-// //                   className="px-6 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transform hover:scale-105 transition font-sans"
-// //                 >
-// //                   Post
-// //                 </button>
-// //               </div>
-// //             </div>
-// //           </div>
-// //         ))}
-// //       </div>
-// //     </div>
-// //   )
-// // }
-
-// // export default Feed
-
-// import { useEffect, useState } from "react"
-// import api from "../api/axios"
-
-// const REACTIONS = [
-//   { type: "clap", emoji: "👏", color: "bg-yellow-100" },
-//   { type: "star", emoji: "⭐", color: "bg-blue-100" },
-//   { type: "heart", emoji: "❤️", color: "bg-pink-100" },
-// ]
-
-// const Feed = () => {
-//   const [shoutouts, setShoutouts] = useState([])
-//   const [reactions, setReactions] = useState({})
-//   const [comments, setComments] = useState({})
-//   const [commentInput, setCommentInput] = useState({})
-
-//   useEffect(() => {
-//     fetchShoutouts()
-//   }, [])
-
-//   const fetchShoutouts = async () => {
-//     const res = await api.get("/shoutouts")
-//     setShoutouts(res.data)
-//     res.data.forEach((s) => {
-//       fetchReactions(s.id)
-//       fetchComments(s.id)
-//     })
-//   }
-
-//   const fetchReactions = async (id) => {
-//     const res = await api.get(`/reactions/shoutouts/${id}/summary`)
-//     setReactions((prev) => ({ ...prev, [id]: res.data }))
-//   }
-
-//   const react = async (id, type) => {
-//     await api.post(`/reactions/shoutouts/${id}`, null, {
-//       params: { reaction_type: type },
-//     })
-//     fetchReactions(id)
-//   }
-
-//   const fetchComments = async (id) => {
-//     const res = await api.get(`/comments/comments/shoutouts/${id}`)
-//     setComments((prev) => ({ ...prev, [id]: res.data }))
-//   }
-
-//   const postComment = async (id) => {
-//     if (!commentInput[id]) return
-//     await api.post(`/comments/shoutouts/${id}`, {
-//       message: commentInput[id],
-//     })
-//     setCommentInput((prev) => ({ ...prev, [id]: "" }))
-//     fetchComments(id)
-//   }
-
-//   return (
-//     <div className="max-w-2xl mx-auto p-6">
-//       {shoutouts.map((shoutout) => (
-//         <div
-//           key={shoutout.id}
-//           className="bg-white shadow-md rounded-lg p-5 mb-6 border border-gray-200"
-//         >
-//           {/* Message */}
-//           <h3 className="text-lg font-semibold text-gray-800">
-//             {shoutout.message}
-//           </h3>
-//           <p className="text-xs text-gray-500 mt-1">
-//             {new Date(shoutout.created_at).toLocaleString()}
-//           </p>
-
-//           {/* Reactions */}
-//           <div className="flex gap-3 mt-4">
-//             {REACTIONS.map((r) => (
-//               <button
-//                 key={r.type}
-//                 onClick={() => react(shoutout.id, r.type)}
-//                 className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium transition hover:scale-105 ${r.color}`}
-//               >
-//                 {r.emoji} {reactions[shoutout.id]?.[r.type] || 0}
-//               </button>
-//             ))}
-//           </div>
-
-//           {/* Comments */}
-//           <div className="mt-5">
-//             <strong className="text-gray-700">Comments</strong>
-//             <div className="mt-2 space-y-3">
-//               {comments[shoutout.id]?.map((c) => (
-//                 <div
-//                   key={c.id}
-//                   className="border-b border-gray-100 pb-2"
-//                 >
-//                   <div className="text-sm font-semibold text-gray-700">
-//                     {c.user_email}
-//                   </div>
-//                   <div className="text-sm text-gray-800">{c.message}</div>
-//                 </div>
-//               ))}
-//             </div>
-//           </div>
-
-//           {/* Add Comment */}
-//           <div className="mt-4">
-//             <input
-//               placeholder="Write a comment..."
-//               value={commentInput[shoutout.id] || ""}
-//               onChange={(e) =>
-//                 setCommentInput((prev) => ({
-//                   ...prev,
-//                   [shoutout.id]: e.target.value,
-//                 }))
-//               }
-//               className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-//             />
-//             <button
-//               onClick={() => postComment(shoutout.id)}
-//               className="mt-2 px-4 py-2 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600 transition"
-//             >
-//               Post
-//             </button>
-//           </div>
-//         </div>
-//       ))}
-//     </div>
-//   )
-// }
-
-// export default Feed
-
-
-
 import { useEffect, useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { MessageCircle, ThumbsUp, Zap, Award, Users, TrendingUp, Send, Star } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 import api from "../api/axios"
+import { useToast } from "../contexts/ToastContext"
+import { AppLayout } from "../components/layout/AppLayout"
 
 const REACTIONS = [
-  { type: "clap", emoji: "👏" },
-  { type: "star", emoji: "⭐" },
-  { type: "heart", emoji: "❤️" },
+  { type: "like", emoji: "👍", label: "Like" },
+  { type: "celebrate", emoji: "👏", label: "Celebrate" },
+  { type: "support", emoji: "🤝", label: "Support" },
+  { type: "love", emoji: "❤️", label: "Love" },
+  { type: "insightful", emoji: "💡", label: "Insightful" },
+  { type: "funny", emoji: "😂", label: "Funny" },
+]
+
+const AVATAR_COLORS = [
+  "bg-primary-600",
+  "bg-violet-600",
+  "bg-teal-600",
+  "bg-rose-600",
+  "bg-amber-600",
 ]
 
 const Feed = () => {
+  const navigate = useNavigate()
   const [shoutouts, setShoutouts] = useState([])
+  const [skip, setSkip] = useState(0)
+  const [hasMore, setHasMore] = useState(true)
+  const [loading, setLoading] = useState(false)
+  const limit = 20
+
   const [reactions, setReactions] = useState({})
   const [comments, setComments] = useState({})
+  const [boosts, setBoosts] = useState({})
+  const [boostedIds, setBoostedIds] = useState({})
   const [commentInput, setCommentInput] = useState({})
+  const [activeCommentBox, setActiveCommentBox] = useState(null)
+  const { showToast } = useToast()
 
-  useEffect(() => {
-    fetchShoutouts()
-  }, [])
+  useEffect(() => { fetchFeed(0) }, [])
 
-  const fetchShoutouts = async () => {
-    const res = await api.get("/shoutouts")
-    setShoutouts(res.data)
+  const fetchFeed = async (currentSkip) => {
+    setLoading(true)
+    try {
+      const res = await api.get("/shoutouts/feed", { params: { skip: currentSkip, limit } })
+      if (res.data.length < limit) setHasMore(false)
 
-    res.data.forEach(s => {
-      fetchReactions(s.id)
-      fetchComments(s.id)
-    })
+      if (currentSkip === 0) {
+        setShoutouts(res.data)
+      } else {
+        setShoutouts(prev => [...prev, ...res.data])
+      }
+
+      setReactions(prev => {
+        const next = { ...prev }
+        res.data.forEach(s => next[s.id] = s.reactions)
+        return next
+      })
+      setComments(prev => {
+        const next = { ...prev }
+        res.data.forEach(s => next[s.id] = s.comments)
+        return next
+      })
+      setBoosts(prev => {
+        const next = { ...prev }
+        res.data.forEach(s => next[s.id] = { total_points: s.total_boost_points })
+        return next
+      })
+    } catch {
+      showToast("Failed to load feed.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const loadMore = () => {
+    const newSkip = skip + limit
+    setSkip(newSkip)
+    fetchFeed(newSkip)
   }
 
   const fetchReactions = async (id) => {
@@ -570,10 +87,25 @@ const Feed = () => {
   }
 
   const react = async (id, type) => {
-    await api.post(`/reactions/shoutouts/${id}`, null, {
-      params: { reaction_type: type },
-    })
+    await api.post(`/reactions/shoutouts/${id}`, null, { params: { reaction_type: type } })
     fetchReactions(id)
+  }
+
+  const fetchBoosts = async (id) => {
+    try {
+      const res = await api.get(`/boosts/shoutouts/${id}/summary`)
+      setBoosts(prev => ({ ...prev, [id]: res.data }))
+    } catch { /* table may not exist yet */ }
+  }
+
+  const boost = async (id) => {
+    try {
+      await api.post(`/boosts/shoutouts/${id}`)
+      setBoostedIds(prev => ({ ...prev, [id]: true }))
+      fetchBoosts(id)
+    } catch (err) {
+      showToast(err.response?.data?.detail || "Could not boost")
+    }
   }
 
   const fetchComments = async (id) => {
@@ -582,82 +114,317 @@ const Feed = () => {
   }
 
   const postComment = async (id) => {
-    if (!commentInput[id]) return
-    await api.post(`/comments/shoutouts/${id}`, {
-      message: commentInput[id],
-    })
+    if (!commentInput[id]?.trim()) return
+    await api.post(`/comments/shoutouts/${id}`, { message: commentInput[id] })
     setCommentInput(prev => ({ ...prev, [id]: "" }))
     fetchComments(id)
   }
 
+  const totalReactions = Object.values(reactions).reduce((s, r) => s + Object.values(r || {}).reduce((a, b) => a + b, 0), 0)
+  const totalBoostPoints = Object.values(boosts).reduce((s, b) => s + (b?.total_points || 0), 0)
+
   return (
-    <div style={{ maxWidth: 800, margin: "auto", padding: 20 }}>
-      {shoutouts.map(s => (
-        <div
-          key={s.id}
-          style={{
-            border: "1px solid #ddd",
-            borderRadius: 8,
-            padding: 15,
-            marginBottom: 20,
-          }}
-        >
-          {/* SHOUTOUT HEADER */}
-          <h3>{s.message}</h3>
-          <p style={{ fontSize: 12, color: "#666" }}>
-            Posted by <b>{s.sender_email}</b> · {new Date(s.created_at).toLocaleString()}
-          </p>
+    <AppLayout>
+      <div className="flex gap-8 items-start">
 
-          {/* TAGGED USERS */}
-          {s.recipients?.length > 0 && (
-            <p style={{ fontSize: 13 }}>
-              🎯 Tagged:{" "}
-              {s.recipients.map((r, i) => (
-                <span key={i} style={{ fontWeight: "bold" }}>
-                  {r.receiver_email}
-                  {i < s.recipients.length - 1 && ", "}
-                </span>
-              ))}
-            </p>
-          )}
-
-          {/* REACTIONS */}
-          <div style={{ display: "flex", gap: 10, marginTop: 10 }}>
-            {REACTIONS.map(r => (
-              <button
-                key={r.type}
-                onClick={() => react(s.id, r.type)}
-              >
-                {r.emoji} {reactions[s.id]?.[r.type] || 0}
-              </button>
-            ))}
-          </div>
-
-          {/* COMMENTS */}
-          <div style={{ marginTop: 15 }}>
-            <strong>Comments</strong>
-
-            {(comments[s.id] || []).map(c => (
-              <div key={c.id} style={{ marginTop: 6 }}>
-                <b>{c.user_email}</b>: {c.message}
-              </div>
-            ))}
-
-            <input
-              placeholder="Write a comment..."
-              value={commentInput[s.id] || ""}
-              onChange={(e) =>
-                setCommentInput(prev => ({ ...prev, [s.id]: e.target.value }))
-              }
-              style={{ width: "100%", marginTop: 8 }}
-            />
-            <button onClick={() => postComment(s.id)} style={{ marginTop: 6 }}>
-              Post
+        {/* Feed column */}
+        <div className="flex-1 min-w-0">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h1 className="text-h2 text-neutral-900">Recognition Feed</h1>
+              <p className="text-body-sm text-neutral-500 mt-0.5">Latest shoutouts from your team</p>
+            </div>
+            <button onClick={() => navigate("/shoutout")} className="btn-primary">
+              <Award className="w-4 h-4" /> Give Shoutout
             </button>
           </div>
+
+          <AnimatePresence>
+            {shoutouts.length === 0 ? (
+              <motion.div
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                className="card card-section text-center py-16"
+              >
+                <div className="w-16 h-16 bg-neutral-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <Star className="w-8 h-8 text-neutral-400" />
+                </div>
+                <h3 className="text-h3 text-neutral-700 mb-1">No shoutouts yet</h3>
+                <p className="text-body text-neutral-400">Be the first to recognize a colleague's great work.</p>
+              </motion.div>
+            ) : (
+              <div className="space-y-4">
+                {shoutouts.map((s, i) => {
+                  const avatarBg = AVATAR_COLORS[i % AVATAR_COLORS.length]
+                  const totalRx = Object.values(reactions[s.id] || {}).reduce((a, b) => a + b, 0)
+                  const commentCount = comments[s.id]?.length || 0
+                  return (
+                    <motion.article
+                      key={s.id}
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: i * 0.05 }}
+                      className="card overflow-visible"
+                    >
+                      <div className="card-section">
+                        {/* Post header */}
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex items-center gap-3">
+                            {s.sender_avatar ? (
+                              <img src={s.sender_avatar} alt="avatar" className="w-10 h-10 rounded-lg object-cover flex-shrink-0" />
+                            ) : (
+                              <div className={`w-10 h-10 rounded-lg ${avatarBg} flex items-center justify-center text-white font-bold text-base flex-shrink-0`}>
+                                {s.sender_email.charAt(0).toUpperCase()}
+                              </div>
+                            )}
+                            <div>
+                              <h4 className="text-body font-semibold text-neutral-900 capitalize">
+                                {s.sender_email.split("@")[0]}
+                              </h4>
+                              <p className="text-caption text-neutral-400">
+                                {new Date(s.created_at).toLocaleString("en-IN", {
+                                  day: "numeric", month: "short", year: "numeric",
+                                  hour: "2-digit", minute: "2-digit",
+                                })}
+                              </p>
+                            </div>
+                          </div>
+                          {boosts[s.id]?.total_points > 0 && (
+                            <span className="badge badge-amber">
+                              <Zap className="w-3 h-3" /> +{boosts[s.id].total_points} pts
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Message */}
+                        <p className="text-body-lg text-neutral-700 leading-relaxed mb-4 border-l-2 border-primary-300 pl-4">
+                          {s.message}
+                        </p>
+
+                        {/* Recipients */}
+                        {s.recipients?.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5 mb-4">
+                            {s.recipients.map((r, ri) => (
+                              <span key={ri} className="badge badge-primary flex items-center gap-1.5 px-2">
+                                {r.receiver_avatar ? (
+                                  <img src={r.receiver_avatar} alt="" className="w-4 h-4 rounded-full object-cover" />
+                                ) : (
+                                  <Users className="w-3 h-3" />
+                                )}
+                                @{r.receiver_name || r.receiver_email.split("@")[0]}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Reaction summary */}
+                        {totalRx > 0 && (
+                          <div className="flex items-center gap-2 py-3 border-t border-neutral-100">
+                            <div className="flex -space-x-1">
+                              {Object.entries(reactions[s.id] || {})
+                                .filter(([_, c]) => c > 0)
+                                .map(([type]) => {
+                                  const rInfo = REACTIONS.find(r => r.type === type)
+                                  if (!rInfo) return null
+                                  return (
+                                    <div key={type} className="w-6 h-6 rounded-full bg-white border border-neutral-200 flex items-center justify-center text-xs shadow-xs">
+                                      {rInfo.emoji}
+                                    </div>
+                                  )
+                                })}
+                            </div>
+                            <span className="text-caption text-neutral-400">
+                              {s.sender_name || s.sender_email.split("@")[0]} and {totalRx} {totalRx === 1 ? "other" : "others"}
+                            </span>
+                          </div>
+                        )}
+
+                        {/* Action bar */}
+                        <div className="flex items-center border-t border-neutral-100 mt-1 -mx-1">
+                          {/* Like (with hover reaction picker) */}
+                          <div className="group relative flex-1">
+                            {/* Hover reaction pill */}
+                            <div className="absolute bottom-full left-0 mb-1 hidden group-hover:flex z-50">
+                              {/* Invisible bridge to keep hover state active */}
+                              <div className="absolute -bottom-4 left-0 w-full h-6 bg-transparent" />
+                              <div className="flex items-center bg-white border border-neutral-200 shadow-lg rounded-full px-2 py-1.5 relative">
+                                {REACTIONS.map(r => (
+                                  <button
+                                    key={r.type}
+                                    onClick={e => { e.preventDefault(); react(s.id, r.type) }}
+                                    title={r.label}
+                                    className="w-9 h-9 flex items-center justify-center text-xl hover:scale-125 hover:-translate-y-1.5 transition-all duration-150"
+                                  >
+                                    {r.emoji}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                            <button className="flex w-full items-center justify-center gap-2 text-body-sm font-medium text-neutral-500 hover:text-primary-600 hover:bg-primary-50 py-2.5 rounded-lg transition-colors mx-1">
+                              <ThumbsUp className="w-4 h-4" /> Like
+                            </button>
+                          </div>
+
+                          {/* Comment */}
+                          <button
+                            onClick={() => setActiveCommentBox(activeCommentBox === s.id ? null : s.id)}
+                            className="flex flex-1 items-center justify-center gap-2 text-body-sm font-medium text-neutral-500 hover:text-primary-600 hover:bg-primary-50 py-2.5 rounded-lg transition-colors mx-1"
+                          >
+                            <MessageCircle className="w-4 h-4" />
+                            Comment
+                            {commentCount > 0 && (
+                              <span className="badge badge-neutral text-xs">{commentCount}</span>
+                            )}
+                          </button>
+
+                          {/* Boost */}
+                          <button
+                            onClick={() => boost(s.id)}
+                            disabled={boostedIds[s.id]}
+                            className={`flex flex-1 items-center justify-center gap-2 text-body-sm font-medium py-2.5 rounded-lg transition-colors mx-1
+                              ${boostedIds[s.id]
+                                ? "text-amber-600 bg-amber-50 cursor-not-allowed"
+                                : "text-neutral-500 hover:text-amber-600 hover:bg-amber-50"}`}
+                          >
+                            <Zap className={`w-4 h-4 ${boostedIds[s.id] ? "fill-amber-500" : ""}`} />
+                            {boostedIds[s.id] ? "Boosted!" : "Boost"}
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Comments section */}
+                      <AnimatePresence>
+                        {activeCommentBox === s.id && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="overflow-hidden border-t border-neutral-100"
+                          >
+                            <div className="px-6 py-4 bg-neutral-50 space-y-3">
+                              {(comments[s.id] || []).length === 0 ? (
+                                <p className="text-body-sm text-neutral-400 text-center py-2">No comments yet — be the first!</p>
+                              ) : (
+                                (comments[s.id] || []).map(c => (
+                                  <div key={c.id} className="flex gap-3">
+                                    {c.user_avatar ? (
+                                      <img src={c.user_avatar} alt="avatar" className="w-8 h-8 rounded-lg object-cover flex-shrink-0" />
+                                    ) : (
+                                      <div className="w-8 h-8 rounded-lg bg-primary-600 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                                        {(c.user_name || c.user_email || "U").charAt(0).toUpperCase()}
+                                      </div>
+                                    )}
+                                    <div className="bg-white border border-neutral-200 rounded-xl rounded-tl-sm px-4 py-2.5 flex-1 shadow-xs">
+                                      <span className="text-body-sm font-semibold text-neutral-800 capitalize block">
+                                        {c.user_name || c.user_email?.split("@")[0]}
+                                      </span>
+                                      <span className="text-body-sm text-neutral-600">{c.message}</span>
+                                    </div>
+                                  </div>
+                                ))
+                              )}
+                              {/* Comment input */}
+                              <div className="relative">
+                                <input
+                                  type="text"
+                                  placeholder="Add a comment…"
+                                  value={commentInput[s.id] || ""}
+                                  onChange={e => setCommentInput(prev => ({ ...prev, [s.id]: e.target.value }))}
+                                  onKeyDown={e => e.key === "Enter" && postComment(s.id)}
+                                  className="input pr-12"
+                                />
+                                <button
+                                  onClick={() => postComment(s.id)}
+                                  className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary-600 hover:bg-primary-700 text-white rounded-lg flex items-center justify-center transition-colors"
+                                >
+                                  <Send className="w-3.5 h-3.5 ml-0.5" />
+                                </button>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.article>
+                  )
+                })}
+              </div>
+            )}
+          </AnimatePresence>
+
+          {/* Load More Button */}
+          {hasMore && shoutouts.length > 0 && (
+            <div className="mt-6 flex justify-center">
+              <button
+                onClick={loadMore}
+                disabled={loading}
+                className="btn-neutral px-8 py-2.5 shadow-sm"
+              >
+                {loading ? "Loading..." : "Load Older Shoutouts"}
+              </button>
+            </div>
+          )}
         </div>
-      ))}
-    </div>
+
+        {/* Sidebar */}
+        <aside className="hidden xl:block w-64 flex-shrink-0 space-y-4 sticky top-6">
+          {/* Stats */}
+          <div className="card card-section">
+            <h3 className="text-body-sm font-semibold text-neutral-700 mb-4 flex items-center gap-2">
+              <TrendingUp className="w-4 h-4 text-primary-500" /> Feed Stats
+            </h3>
+            <div className="space-y-3">
+              {[
+                ["Posts", shoutouts.length],
+                ["Reactions", totalReactions],
+                ["Points Boosted", totalBoostPoints],
+              ].map(([label, val]) => (
+                <div key={label} className="flex items-center justify-between">
+                  <span className="text-body-sm text-neutral-500">{label}</span>
+                  <span className="text-body font-bold text-neutral-900 tabular-nums">{val}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* How it works */}
+          <div className="card card-section">
+            <h3 className="text-body-sm font-semibold text-neutral-700 mb-3">How it works</h3>
+            <ul className="space-y-2.5">
+              {[
+                ["1", "Newest posts appear first."],
+                ["2", "Hover Like to react with an emoji."],
+                ["⚡", "Boost transfers 10 pts to recipient."],
+              ].map(([step, text]) => (
+                <li key={step} className="flex items-start gap-2 text-body-sm text-neutral-500">
+                  <span className="w-5 h-5 rounded-full bg-neutral-100 text-neutral-600 font-semibold text-xs flex items-center justify-center flex-shrink-0 mt-0.5">{step}</span>
+                  <span>{text}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Recent */}
+          {shoutouts.length > 0 && (
+            <div className="card card-section">
+              <h3 className="text-body-sm font-semibold text-neutral-700 mb-3">Recent recognitions</h3>
+              <div className="space-y-2.5">
+                {shoutouts.slice(0, 5).map((s, i) => (
+                  <div key={s.id} className="flex items-center gap-2.5">
+                    <div className={`w-7 h-7 rounded-md ${AVATAR_COLORS[i % AVATAR_COLORS.length]} flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}>
+                      {s.sender_email.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-body-sm font-medium text-neutral-800 truncate capitalize">{s.sender_email.split("@")[0]}</p>
+                      <p className="text-caption text-neutral-400 truncate">{s.message.slice(0, 28)}…</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </aside>
+      </div>
+    </AppLayout>
   )
 }
 

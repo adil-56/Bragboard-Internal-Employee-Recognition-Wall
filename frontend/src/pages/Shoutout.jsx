@@ -1,195 +1,183 @@
-// // import { useState } from "react"
-// // import api from "../api/axios"
-
-// // const Shoutout = () => {
-// //   const [message, setMessage] = useState("")
-
-// //   const handleSubmit = async (e) => {
-// //     e.preventDefault()
-
-// //     try {
-// //       await api.post(
-// //         "/shoutouts",
-// //         null,
-// //         {
-// //           params: { message }
-// //         }
-// //       )
-
-// //       alert("Shoutout sent 🎉")
-// //       setMessage("")
-// //     } catch (err) {
-// //       console.error(err)
-// //       alert("Failed to send shoutout")
-// //     }
-// //   }
-
-// //   return (
-// //     <div style={{ padding: "40px", maxWidth: "500px", margin: "auto" }}>
-// //       <h2>Send Shoutout</h2>
-
-// //       <form onSubmit={handleSubmit}>
-// //         <textarea
-// //           placeholder="Write your shoutout message"
-// //           value={message}
-// //           onChange={(e) => setMessage(e.target.value)}
-// //           required
-// //           style={{ width: "100%", height: "100px", marginBottom: "10px" }}
-// //         />
-
-// //         <button type="submit" style={{ width: "100%" }}>
-// //           Send Shoutout
-// //         </button>
-// //       </form>
-// //     </div>
-// //   )
-// // }
-
-// // export default Shoutout
-
-
-// import { useState } from "react"
-// import api from "../api/axios"
-
-// const Shoutout = () => {
-//   const [message, setMessage] = useState("")
-//   const [loading, setLoading] = useState(false)
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault()
-//     setLoading(true)
-
-//     try {
-//       await api.post("/shoutouts", null, { params: { message } })
-//       setMessage("")
-//       alert("🎉 Shoutout sent successfully!")
-//     } catch (err) {
-//       console.error(err)
-//       alert("❌ Failed to send shoutout")
-//     } finally {
-//       setLoading(false)
-//     }
-//   }
-
-//   return (
-//     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 via-white to-gray-200 p-6">
-//       <div className="bg-white rounded-2xl shadow-lg w-full max-w-md p-8 transform transition hover:scale-[1.02] hover:shadow-xl animate-fadeIn">
-//         {/* Title */}
-//         <h2 className="text-2xl font-bold text-center text-blue-700 mb-6 tracking-wide">
-//           🚀 Send a Shoutout
-//         </h2>
-
-//         {/* Form */}
-//         <form onSubmit={handleSubmit} className="space-y-4">
-//           <textarea
-//             placeholder="Write your shoutout message..."
-//             value={message}
-//             onChange={(e) => setMessage(e.target.value)}
-//             required
-//             className="w-full h-28 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none resize-none shadow-sm transition"
-//           />
-
-//           <button
-//             type="submit"
-//             disabled={loading}
-//             className={`w-full py-3 rounded-lg text-white font-semibold shadow-md transform transition 
-//               ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 hover:scale-105"}
-//             `}
-//           >
-//             {loading ? "Sending..." : "Send Shoutout 🎉"}
-//           </button>
-//         </form>
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default Shoutout
-
-
-
-
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { motion } from "framer-motion"
+import { Award, ChevronLeft, Send, Users, LayoutDashboard, Gift } from "lucide-react"
 import api from "../api/axios"
 
+const CORE_VALUES = [
+  { id: 1, name: "Customer Obsession", icon: "🎯" },
+  { id: 2, name: "Take Ownership", icon: "🛡️" },
+  { id: 3, name: "Deliver Results", icon: "🚀" },
+  { id: 4, name: "Think Big", icon: "🌟" },
+]
+const POINTS_PRESETS = [10, 50, 100]
+
 const Shoutout = () => {
+  const navigate = useNavigate()
   const [message, setMessage] = useState("")
   const [users, setUsers] = useState([])
   const [receiverId, setReceiverId] = useState("")
+  const [coreValue, setCoreValue] = useState(1)
+  const [points, setPoints] = useState(10)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      const res = await api.get("/users")
-      setUsers(res.data || [])
-    }
-    fetchUsers()
+    api.get("/users").then(res => setUsers(res.data || [])).catch(console.error)
   }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-
     try {
-      await api.post("/shoutouts", null, {
-        params: {
-          message,
-          receiver_id: receiverId,
-        },
+      await api.post("/shoutouts/", null, {
+        params: { message, receiver_id: receiverId, points, core_value_id: coreValue },
       })
-      setMessage("")
-      setReceiverId("")
-      alert("🚀 Shoutout sent successfully!")
-    } catch (err) {
-      console.error(err)
-      alert("❌ Failed to send shoutout")
+      navigate("/feed")
+    } catch {
+      alert("Failed to send shoutout. Please try again.")
     } finally {
       setLoading(false)
     }
   }
 
+  const canSubmit = receiverId && message.trim() && !loading
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="bg-white rounded-2xl shadow-lg w-full max-w-md p-6">
-        <h2 className="text-2xl font-bold text-center text-blue-700 mb-6">
-          🚀 Send a Shoutout
-        </h2>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <select
-            value={receiverId}
-            onChange={(e) => setReceiverId(e.target.value)}
-            required
-            className="w-full p-3 border rounded-lg"
-          >
-            <option value="">Select Employee</option>
-            {users.map((u) => (
-              <option key={u.id} value={u.id}>
-                {u.email}
-              </option>
+    <div className="page">
+      {/* Navbar */}
+      <nav className="app-nav">
+        <div className="app-nav-inner">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
+              <Award className="w-4 h-4 text-white" />
+            </div>
+            <span className="font-bold text-neutral-900 text-base">Bragboard</span>
+          </div>
+          <nav className="hidden md:flex items-center gap-1">
+            {[
+              { label: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
+              { label: "Feed", path: "/feed", icon: Users },
+              { label: "Shoutout", path: "/shoutout", icon: Award },
+              { label: "Rewards", path: "/rewards", icon: Gift },
+            ].map(({ label, path, icon: Icon }) => (
+              <button
+                key={path}
+                onClick={() => navigate(path)}
+                className={`flex items-center gap-1.5 text-body px-3 py-1.5 rounded-md transition-colors font-medium
+                  ${path === "/shoutout"
+                    ? "text-primary-700 bg-primary-50"
+                    : "text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100"}`}
+              >
+                <Icon className="w-4 h-4" />{label}
+              </button>
             ))}
-          </select>
-
-          <textarea
-            placeholder="Write your shoutout message..."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            required
-            className="w-full h-28 p-3 border rounded-lg"
-          />
-
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full py-3 rounded-lg text-white font-semibold ${
-              loading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
-            }`}
-          >
-            {loading ? "Sending..." : "Send Shoutout 🎉"}
+          </nav>
+          <button onClick={() => navigate("/dashboard")} className="btn-ghost text-body-sm">
+            <ChevronLeft className="w-4 h-4" /> Dashboard
           </button>
-        </form>
+        </div>
+      </nav>
+
+      <div className="page-container max-w-2xl mx-auto">
+        {/* Page heading */}
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
+          <h1 className="text-h1 text-neutral-900">Send a Shoutout</h1>
+          <p className="text-body text-neutral-500 mt-1">Recognize a teammate's great contribution.</p>
+        </motion.div>
+
+        {/* Form card */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05 }}
+          className="card"
+        >
+          <form onSubmit={handleSubmit}>
+            {/* Recipient */}
+            <div className="card-section border-b border-neutral-100">
+              <label className="field-label">Recognize someone</label>
+              <select
+                value={receiverId}
+                onChange={e => setReceiverId(e.target.value)}
+                required
+                className="input"
+              >
+                <option value="" disabled>Select a teammate...</option>
+                {users.map(u => (
+                  <option key={u.id} value={u.id}>{u.name || u.email} ({u.role})</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Core Values */}
+            <div className="card-section border-b border-neutral-100">
+              <label className="field-label">Company value</label>
+              <div className="grid grid-cols-2 gap-2 mt-1">
+                {CORE_VALUES.map(cv => (
+                  <button
+                    key={cv.id}
+                    type="button"
+                    onClick={() => setCoreValue(cv.id)}
+                    className={`flex items-center gap-3 p-3.5 rounded-lg border text-left text-body-sm font-medium transition-all
+                      ${coreValue === cv.id
+                        ? "border-primary-500 bg-primary-50 text-primary-700"
+                        : "border-neutral-200 bg-white text-neutral-600 hover:border-neutral-300 hover:bg-neutral-50"}`}
+                  >
+                    <span className="text-xl">{cv.icon}</span>
+                    <span>{cv.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Points */}
+            <div className="card-section border-b border-neutral-100">
+              <label className="field-label">Points to award</label>
+              <div className="flex gap-2 mt-1">
+                {POINTS_PRESETS.map(pts => (
+                  <button
+                    key={pts}
+                    type="button"
+                    onClick={() => setPoints(pts)}
+                    className={`flex-1 py-2.5 rounded-lg border font-semibold text-body transition-all
+                      ${points === pts
+                        ? "bg-primary-600 border-primary-600 text-white shadow-sm"
+                        : "bg-white border-neutral-200 text-neutral-600 hover:border-neutral-300"}`}
+                  >
+                    +{pts} pts
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Message */}
+            <div className="card-section border-b border-neutral-100">
+              <label className="field-label">Your message</label>
+              <textarea
+                placeholder="What did they do that was noteworthy? Be specific and sincere."
+                value={message}
+                onChange={e => setMessage(e.target.value)}
+                required
+                rows={4}
+                className="input mt-1 resize-none"
+              />
+              <p className="text-caption text-neutral-400 mt-1.5">{message.length} characters</p>
+            </div>
+
+            {/* Submit */}
+            <div className="card-section">
+              <button
+                type="submit"
+                disabled={!canSubmit}
+                className={`btn-primary btn-lg w-full ${!canSubmit ? "opacity-50 cursor-not-allowed" : ""}`}
+              >
+                {loading
+                  ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  : <><Send className="w-4 h-4" /> Publish Shoutout</>}
+              </button>
+            </div>
+          </form>
+        </motion.div>
       </div>
     </div>
   )
