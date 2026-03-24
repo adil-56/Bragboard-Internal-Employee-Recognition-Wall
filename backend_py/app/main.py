@@ -53,3 +53,8 @@ app.include_router(admin_router)
 app.include_router(reports_router)
 app.include_router(boost_router)
 app.include_router(economy_router)
+
+
+@app.get("/")
+def root():
+    return {"message": "Bragboard API is running 🚀"}
