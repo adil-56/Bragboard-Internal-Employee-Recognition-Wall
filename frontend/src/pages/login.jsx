@@ -157,7 +157,7 @@ const Login = () => {
               </div>
               <div className="flex justify-between">
                 <span className="font-medium">Employee:</span>
-                <span className="font-mono text-xs">adil.sharma1@bragboard.com</span>
+                <span className="font-mono text-xs">aadil@bragboard.com</span>
               </div>
               <div className="flex justify-between">
                 <span className="font-medium">Password:</span>
