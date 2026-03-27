@@ -95,7 +95,12 @@ const Login = () => {
           </div>
 
           <h2 className="text-h2 text-neutral-900 mb-1">Sign in</h2>
-          <p className="text-body text-neutral-500 mb-8">Enter your credentials to access your workspace.</p>
+          <p className="text-body text-neutral-500 mb-6">Enter your credentials to access your workspace.</p>
+
+          <div className="flex items-start gap-2.5 bg-amber-50 border border-amber-200 text-amber-800 text-sm rounded-lg px-4 py-3 mb-6">
+            <span className="mt-0.5 flex-shrink-0">ℹ️</span>
+            <span><strong>Note:</strong> The backend is hosted on a free tier. It may take <strong>30-50 seconds</strong> to load on your first attempt. Please be patient!</span>
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>

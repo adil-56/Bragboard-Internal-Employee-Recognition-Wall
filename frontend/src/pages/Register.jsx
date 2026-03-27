@@ -102,7 +102,12 @@ const Register = () => {
           </div>
 
           <h2 className="text-h2 text-neutral-900 mb-1">Create account</h2>
-          <p className="text-body text-neutral-500 mb-8">Join your team on Bragboard.</p>
+          <p className="text-body text-neutral-500 mb-6">Join your team on Bragboard.</p>
+
+          <div className="flex items-start gap-2.5 bg-amber-50 border border-amber-200 text-amber-800 text-sm rounded-lg px-4 py-3 mb-6">
+            <span className="mt-0.5 flex-shrink-0">ℹ️</span>
+            <span><strong>Note:</strong> The backend is hosted on a free tier. It may take <strong>30-50 seconds</strong> to load on your first attempt. Please be patient!</span>
+          </div>
 
           {success ? (
             <motion.div
